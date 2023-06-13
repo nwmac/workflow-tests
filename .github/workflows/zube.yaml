@@ -13,11 +13,10 @@ jobs:
     steps:
       - name: Check Labels
         id: check-labels
+        shell: bash
         run: |
-          echo ${{ toJSON(github.event.issue.labels) }}
-          echo ${{ toJSON(github.event.issue.labels.*.name) }}
-          echo ${{ github.event }}
-      - name: Label issues
+          NAMES="${{ toJSON(github.event.issue.labels.*.name) }}"
+          echo $NAMES
         if: steps.check-labels.outputs.match == 'true'
         uses: github/issue-labeler@v2.5
         with:
