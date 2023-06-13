@@ -14,11 +14,11 @@ jobs:
       - name: Check Labels
         id: check-labels
         env:
-          MY_ENV_VAR: ${{ join(github.event.issue.labels.*.name, ', ') }}
+          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
         run: |
           # Check if issue has zube labels
           set +e
-          echo $MY_ENV_VAR > labels
+          echo ${ISSUE_LABELS} > labels
           cat labels
           grep -c -E "\s*\[zube\]:" labels
           if [ $? -eq 1 ]; then
