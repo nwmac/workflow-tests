@@ -11,7 +11,7 @@ jobs:
       issues: write
     steps:
       - name: Label issues
-        if: "!startsWith(github.event.issue.labels.*.name, '[zube]:')"
+        if: "!contains(github.event.issue.labels.*.name, '[zube]:')"
         uses: github/issue-labeler@v2.5
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
