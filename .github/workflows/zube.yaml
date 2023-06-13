@@ -13,8 +13,10 @@ jobs:
     steps:
       - name: Check Labels
         id: check-labels
+      env:
+        MY_ENV_VAR: ${{ github.event.issue.labels.*.name }}
         run: |
-          echo ${{ toJSON(github.event.issue.labels.*.name) }} > labels
+          echo $MY_ENV_VAR > labels
           cat labels
           grep -c -E "\s*\[zube\]:" labels
           if [ $? -eq 1 ]; then
