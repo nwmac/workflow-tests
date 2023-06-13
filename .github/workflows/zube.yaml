@@ -14,7 +14,7 @@ jobs:
       - name: Check Labels
         id: check-labels
         env:
-          MY_ENV_VAR: ${{ github.event.issue.labels.*.name }}
+          MY_ENV_VAR: join(github.event.issue.labels.*.name, ', ')
         run: |
           echo $MY_ENV_VAR > labels
           cat labels
