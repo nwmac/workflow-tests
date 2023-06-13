@@ -14,10 +14,17 @@ jobs:
       - name: Check Labels
         id: check-labels
         run: |
-          NAMES="${{ toJSON(github.event.issue.labels.*.name) }}"
-          echo $NAMES
+          echo ${{ toJSON(github.event.issue.labels.*.name) }} > labels
+          cat labels
+          grep -c -E "\s*\[zube\]:" labels
+          if [ $? -eq 1 ]; then
+            echo "update=true" >> $GITHUB_OUTPUT
+            echo "Can not find any existing zube labels"
+          else
+            echo "Found existing zube labels"
+          fi
       - name: Label issues
-        if: steps.check-labels.outputs.match == 'true'
+        if: steps.check-labels.outputs.update == 'true'
         uses: github/issue-labeler@v2.5
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
