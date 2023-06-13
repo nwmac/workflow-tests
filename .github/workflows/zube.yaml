@@ -13,7 +13,7 @@ jobs:
       - name: Check Labels
         id: check-labels
         run: |
-          echo ${{ github.event.labels }}
+          echo ${{ github.event.issue.labels }}
           echo ${{ github.event }}
       - name: Label issues
         if: steps.check-labels.outputs.match == 'true'
