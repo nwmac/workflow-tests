@@ -10,8 +10,13 @@ jobs:
     permissions:
       issues: write
     steps:
+      - name: Check Labels
+        id: check-labels
+        run: |
+          echo ${{ github.event.labels }}
+          echo ${{ github.event }}
       - name: Label issues
-        if: "!contains(github.event.issue.labels.*.name, '[zube]:')"
+        if: steps.check-labels.outputs.match == 'true'
         uses: github/issue-labeler@v2.5
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
